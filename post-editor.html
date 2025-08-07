@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор поста</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="editor-container">
+        <h1 id="editor-title">Новый пост</h1>
+        <form id="post-form">
+            <label for="post-title">Заголовок:</label>
+            <input type="text" id="post-title" required>
+            
+            <label for="post-content">Содержание:</label>
+            <textarea id="post-content" required></textarea>
+            
+            <label for="post-tags">Теги (через запятую):</label>
+            <input type="text" id="post-tags" placeholder="пример: программирование, веб-разработка">
+            
+            <label>
+                <input type="checkbox" id="post-public"> Публичный пост
+            </label>
+            
+            <button type="submit" id="submit-post">Опубликовать</button>
+        </form>
+    </div>
+
+    <script src="script-editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой блог</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="index.itml" href="index.html">
+    <link rel="auth.html" href="auth.html">
+     <link rel="post-editor.html" href="post-editor.html">
+
+</head>
+<body>
+    <header>
+        <h1>Мой блог</h1>
+        <nav>
+            <a href="#" id="login-link">Войти</a>
+            <a href="#" id="register-link">Регистрация</a>
+            <a href="#" id="new-post-link" style="display:none;">Новый пост</a>
+            <a href="#" id="logout-link" style="display:none;">Выйти</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="user-info" style="display:none;">
+            <h2>Добро пожаловать, <span id="username-display"></span>!</h2>
+            <div id="subscriptions">
+                <h3>Подписки</h3>
+                <div id="subscriptions-list"></div>
+                <input type="text" id="subscribe-input" placeholder="Имя пользователя">
+                <button id="subscribe-btn">Подписаться</button>
+            </div>
+        </div>
+
+        <div id="posts-container">
+            <h2>Последние посты</h2>
+            <div id="filter-controls">
+                <select id="filter-select">
+                    <option value="all">Все посты</option>
+                    <option value="subscribed">Мои подписки</option>
+                    <option value="tags">По тегам</option>
+                </select>
+                <input type="text" id="tags-filter" placeholder="Теги (через запятую)" style="display:none;">
+            </div>
+            <div id="posts-list"></div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="script-auth.js"></script>
+    <script src="script-editor.js"></script>
+</body>
+</html>
