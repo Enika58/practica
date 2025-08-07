@@ -3,92 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя библиотека</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="admin.html" href="admin.html">
+    <title>Дневник путешествий</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Моя библиотека</h1>
+        <h1>Дневник путешествий</h1>
         <nav>
-            <a href="#" id="admin-link">Админ-панель</a>
-            <div class="user-actions">
-                <span id="username">Гость</span>
+            <div id="auth-buttons">
                 <button id="login-btn">Войти</button>
+                <button id="register-btn">Регистрация</button>
+            </div>
+            <div id="user-menu" style="display: none;">
+                <span id="username-display"></span>
+                <button id="add-trip-btn">Добавить путешествие</button>
+                <button id="logout-btn">Выйти</button>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="filters">
-            <h2>Фильтры</h2>
-            <div class="filter-group">
-                <label for="category-filter">Категория:</label>
-                <select id="category-filter">
-                    <option value="all">Все</option>
+        <section id="trips-list">
+            <h2>Последние путешествия</h2>
+            <div id="filter-controls">
+                <select id="country-filter">
+                    <option value="all">Все страны</option>
+                </select>
+                <select id="user-filter">
+                    <option value="all">Все пользователи</option>
                 </select>
             </div>
-            <div class="filter-group">
-                <label for="author-filter">Автор:</label>
-                <select id="author-filter">
-                    <option value="all">Все</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="year-filter">Год:</label>
-                <select id="year-filter">
-                    <option value="all">Все</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label for="availability-filter">Доступность:</label>
-                <select id="availability-filter">
-                    <option value="all">Все</option>
-                    <option value="available">Доступные</option>
-                    <option value="rented">Арендованные</option>
-                </select>
-            </div>
-        </section>
-
-        <section class="books">
-            <h2>Книги</h2>
-            <div id="books-list" class="books-grid"></div>
+            <div id="trips-container" class="trips-grid"></div>
         </section>
     </main>
 
-    <div id="login-modal" class="modal">
+    <!-- Модальные окна -->
+    <div id="auth-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Вход</h2>
-            <form id="login-form">
-                <input type="text" placeholder="Имя пользователя" required>
-                <input type="password" placeholder="Пароль" required>
-                <button type="submit">Войти</button>
+            <h2 id="modal-title">Вход</h2>
+            <form id="auth-form">
+                <div id="name-field" style="display: none;">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit" id="submit-auth">Войти</button>
             </form>
         </div>
     </div>
 
-    <div id="rent-modal" class="modal">
+    <div id="trip-modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Аренда книги</h2>
-            <form id="rent-form">
-                <input type="hidden" id="rent-book-id">
+            <h2 id="trip-modal-title">Новое путешествие</h2>
+            <form id="trip-form">
+                <input type="hidden" id="trip-id">
                 <div class="form-group">
-                    <label>Срок аренды:</label>
-                    <select id="rent-period" required>
-                        <option value="14">2 недели (бесплатно)</option>
-                        <option value="30">1 месяц (100 руб.)</option>
-                        <option value="90">3 месяца (250 руб.)</option>
+                    <label for="trip-title">Название:</label>
+                    <input type="text" id="trip-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="trip-country">Страна:</label>
+                    <input type="text" id="trip-country" required>
+                </div>
+                <div class="form-group">
+                    <label for="trip-city">Город:</label>
+                    <input type="text" id="trip-city" required>
+                </div>
+                <div class="form-group">
+                    <label for="trip-date">Дата:</label>
+                    <input type="date" id="trip-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="trip-cost">Стоимость (руб):</label>
+                    <input type="number" id="trip-cost">
+                </div>
+                <div class="form-group">
+                    <label for="trip-places">Места для посещения (через запятую):</label>
+                    <textarea id="trip-places"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="trip-heritage">Места культурного наследия:</label>
+                    <textarea id="trip-heritage"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="trip-rating">Оценка (1-5):</label>
+                    <select id="trip-rating">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
-                <button type="submit">Подтвердить</button>
+                <div class="form-group">
+                    <label for="trip-description">Описание:</label>
+                    <textarea id="trip-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="trip-image">Изображение (URL):</label>
+                    <input type="text" id="trip-image">
+                </div>
+                <div class="form-group">
+                    <label for="trip-location">Местоположение (широта,долгота):</label>
+                    <input type="text" id="trip-location" placeholder="Например: 55.7558,37.6173">
+                    <div id="map" style="height: 200px; margin-top: 10px;"></div>
+                </div>
+                <button type="submit">Сохранить</button>
+                <button type="button" id="delete-trip-btn">Удалить</button>
             </form>
         </div>
     </div>
 
-    <script src="db.js"></script>
-    <script src="script.js"></script>
-    <script src="admin.js"></script>
+    <div id="view-trip-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="view-trip-title"></h2>
+            <div id="view-trip-content"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
