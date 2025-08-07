@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Админ-панель</h1>
+        <nav>
+            <a href="index.html">На главную</a>
+            <div class="user-actions">
+                <span id="username"></span>
+                <button id="logout-btn">Выйти</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="admin-section">
+            <h2>Управление книгами</h2>
+            <button id="add-book-btn">Добавить книгу</button>
+            <div id="books-list" class="books-grid"></div>
+        </section>
+
+        <section class="admin-section">
+            <h2>Просроченные аренды</h2>
+            <div id="expired-rentals"></div>
+        </section>
+    </main>
+
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Добавить книгу</h2>
+            <form id="book-form">
+                <input type="hidden" id="book-id">
+                <div class="form-group">
+                    <label for="book-title">Название:</label>
+                    <input type="text" id="book-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-author">Автор:</label>
+                    <input type="text" id="book-author" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-category">Категория:</label>
+                    <select id="book-category" required>
+                        <option value="">Выберите категорию</option>
+                    </select>
+                    <input type="text" id="new-category" placeholder="Или введите новую">
+                </div>
+                <div class="form-group">
+                    <label for="book-year">Год:</label>
+                    <input type="number" id="book-year" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-cover">Обложка (URL):</label>
+                    <input type="text" id="book-cover" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-price">Цена:</label>
+                    <input type="number" id="book-price" required>
+                </div>
+                <div class="form-group">
+                    <label for="book-status">Статус:</label>
+                    <select id="book-status" required>
+                        <option value="available">Доступна</option>
+                        <option value="rented">Арендована</option>
+                    </select>
+                </div>
+                <button type="submit">Сохранить</button>
+                <button type="button" id="delete-book-btn">Удалить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="db.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

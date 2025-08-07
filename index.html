@@ -3,50 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой блог</title>
+    <title>Моя библиотека</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="index.itml" href="index.html">
-    <link rel="auth.html" href="auth.html">
-     <link rel="post-editor.html" href="post-editor.html">
-
+    <link rel="admin.html" href="admin.html">
 </head>
 <body>
     <header>
-        <h1>Мой блог</h1>
+        <h1>Моя библиотека</h1>
         <nav>
-            <a href="#" id="login-link">Войти</a>
-            <a href="#" id="register-link">Регистрация</a>
-            <a href="#" id="new-post-link" style="display:none;">Новый пост</a>
-            <a href="#" id="logout-link" style="display:none;">Выйти</a>
+            <a href="#" id="admin-link">Админ-панель</a>
+            <div class="user-actions">
+                <span id="username">Гость</span>
+                <button id="login-btn">Войти</button>
+            </div>
         </nav>
     </header>
 
     <main>
-        <div id="user-info" style="display:none;">
-            <h2>Добро пожаловать, <span id="username-display"></span>!</h2>
-            <div id="subscriptions">
-                <h3>Подписки</h3>
-                <div id="subscriptions-list"></div>
-                <input type="text" id="subscribe-input" placeholder="Имя пользователя">
-                <button id="subscribe-btn">Подписаться</button>
-            </div>
-        </div>
-
-        <div id="posts-container">
-            <h2>Последние посты</h2>
-            <div id="filter-controls">
-                <select id="filter-select">
-                    <option value="all">Все посты</option>
-                    <option value="subscribed">Мои подписки</option>
-                    <option value="tags">По тегам</option>
+        <section class="filters">
+            <h2>Фильтры</h2>
+            <div class="filter-group">
+                <label for="category-filter">Категория:</label>
+                <select id="category-filter">
+                    <option value="all">Все</option>
                 </select>
-                <input type="text" id="tags-filter" placeholder="Теги (через запятую)" style="display:none;">
             </div>
-            <div id="posts-list"></div>
-        </div>
+            <div class="filter-group">
+                <label for="author-filter">Автор:</label>
+                <select id="author-filter">
+                    <option value="all">Все</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="year-filter">Год:</label>
+                <select id="year-filter">
+                    <option value="all">Все</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="availability-filter">Доступность:</label>
+                <select id="availability-filter">
+                    <option value="all">Все</option>
+                    <option value="available">Доступные</option>
+                    <option value="rented">Арендованные</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="books">
+            <h2>Книги</h2>
+            <div id="books-list" class="books-grid"></div>
+        </section>
     </main>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Вход</h2>
+            <form id="login-form">
+                <input type="text" placeholder="Имя пользователя" required>
+                <input type="password" placeholder="Пароль" required>
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="rent-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Аренда книги</h2>
+            <form id="rent-form">
+                <input type="hidden" id="rent-book-id">
+                <div class="form-group">
+                    <label>Срок аренды:</label>
+                    <select id="rent-period" required>
+                        <option value="14">2 недели (бесплатно)</option>
+                        <option value="30">1 месяц (100 руб.)</option>
+                        <option value="90">3 месяца (250 руб.)</option>
+                    </select>
+                </div>
+                <button type="submit">Подтвердить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="db.js"></script>
     <script src="script.js"></script>
-    <script src="script-auth.js"></script>
-    <script src="script-editor.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
